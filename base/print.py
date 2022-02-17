@@ -9,3 +9,10 @@ list.append("apple")
 list.append("banana")
 for item in list:
     print(item, end='')
+print()
+print("以下输出间隔符")
+x, y, z = 1, 2, 3
+print(x, y, z, sep=",")
+
+print("以下打印内容不转义")
+print(r"\n \r \t")
