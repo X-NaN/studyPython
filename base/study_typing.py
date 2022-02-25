@@ -7,6 +7,7 @@ python类型检查模块typing，python3.5以上可以使用
 def func(paramName1: "类型", paramName2: "类型") -> "返回类型"
 
 注意：在调用函数时，如果传入错误的类型，pycharm会给出提示
+
 """
 
 from typing import Tuple, List, Dict
