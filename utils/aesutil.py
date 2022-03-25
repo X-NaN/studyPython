@@ -1,4 +1,5 @@
 """
+python3 加解密
 mac:
 pip install pycryptodome
 
@@ -12,54 +13,44 @@ import os
 import struct
 
 from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
 
 
 class AESUtil:
+    def __init__(self, secKey: str):
+        """
+        初始化密钥和偏移量
+        :param secKey: 密钥,密钥应由16位，24位，32位字母或数字组成
+        """
+        self.key = secKey  # 密钥
+        self.iv = secKey[0:16]  # 偏移量, 截取密钥前16位
 
-    def enc_file(self, plain_file_path, enc_file_path, key):
+    def enc_file(self, plain_file_path, enc_file_path):
         """
         加密文件
         :param plain_file_path: 明文文件路径
         :param enc_file_path: 加密后文件路径
-        :param key: 秘钥
         :return:
         """
-        # 16进制转字符串
-        # key = binascii.a2b_hex(key)
-        # iv = binascii.a2b_hex(self.__generate_iv())
-        # 加密向量
-        iv = key
-        # iv = os.urandom(16)
-        with open(plain_file_path, 'rb') as fileobj:
-            content = fileobj.read()
+        with open(plain_file_path, 'rb') as fileObj:
+            content = fileObj.read()
             # 加密文件
-            enc_content = self.aes_encrypt(plain_data=content, key=key, iv=iv)
-        file_name = os.path.basename(plain_file_path)
-        # out_file_path = os.path.dirname(plain_file_path) + '/enc_obama.jpg'
-
+            enc_content = self.aes_encrypt(plain_data=content, key=self.key, iv=self.iv)
         with open(enc_file_path, 'wb') as f:  # 以二进制写类型打开
             f.write(enc_content)  # 写入文件
 
-    def dec_file(self, enc_file_path, dec_file_path, key):
+    def dec_file(self, enc_file_path, dec_file_path):
         """
         解密文件
         :param enc_file_path: 加密文件路径
         :param dec_file_path: 解密文件路径
-        :param key: 秘钥
         :return:
         """
-        # 向量
-        iv = key
-
-        with open(enc_file_path, 'rb') as fileobj:
-            content = fileobj.read()
+        with open(enc_file_path, 'rb') as fileObj:
+            content = fileObj.read()
             # 解密头
             version, key1, enc_content_length, reserve = struct.unpack('<I16sI40s', content[0:64])
-            dec_content = self.aes_decryppt(enc_data=content[64:], key=key, iv=iv)
-        file_name = os.path.basename(enc_file_path)
-
-        # (filename, extension) = os.path.splitext(file_name)
-        # dec_file_path = os.path.dirname(enc_file_path) + '/dec_obama.jpg'
+            dec_content = self.aes_decrypt(enc_data=content[64:], key=self.key, iv=self.iv)
         with open(dec_file_path, 'wb') as f:  # 以二进制写类型打开
             f.write(dec_content)  # 写入文件
 
@@ -94,14 +85,13 @@ class AESUtil:
 
         # 填充数据
         pad_data = self.__pad(text=plain_data)
-
         encrypted_data = cipher.encrypt(pad_data)  # aes加密
         # encrypted= base64.b64encode(Cipher.encrypt(pad_data))
         # 返回的二进制数据的十六进制表示。每一个字节的数据转换成相应的2位十六进制表示。
         result = binascii.b2a_hex(encrypted_data)  # b2a_hex encode  将二进制转换成16进制
         return encrypted_data
 
-    def aes_decryppt(self, enc_data, key, iv):
+    def aes_decrypt(self, enc_data, key, iv):
         """aes解密
         :param key:
         :param data:
@@ -110,6 +100,7 @@ class AESUtil:
         dec_data = cipher.decrypt(enc_data)
 
         unpad_data = self.__unpad(dec_data)
+
         # 字符串转16进制
         result = binascii.hexlify(unpad_data)
         return unpad_data
@@ -164,8 +155,12 @@ if __name__ == '__main__':
     # base_path = os.path.dirname(os.path.abspath(__file__)) + '/data'
     base_path = "/Users/conanmu/code/github/python/studyPython/data/"
     plain_file = base_path + '/obama.jpg'
-    encrypt_file = base_path + '/obama_encrypt.jpg'
+    enc_file = base_path + '/obama_encrypt.jpg'
+    dec_file = base_path + '/obama_decrypt.jpg'
     # 密钥
-    encryptKey = "aaa"
-    aesUtil = AESUtil()
-    aesUtil.enc_file(plain_file_path=plain_file, enc_file_path=encrypt_file, key=encryptKey)
+    encryptKey = "6agrioBE1D9yoGOX4yyDMyMFs72jYvJ8"
+    aesUtil = AESUtil(encryptKey)
+    # 加密
+    aesUtil.enc_file(plain_file_path=plain_file, enc_file_path=enc_file)
+    # 解密
+    aesUtil.dec_file(enc_file_path=enc_file, dec_file_path=dec_file)
