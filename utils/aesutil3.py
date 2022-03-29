@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 """
-python3 加解密
-mac:
+python3/mac:
 pip install pycryptodome
 
-window:
+python3/window:
 pip install crypto
 pip install pycryptodome
 
@@ -12,7 +11,9 @@ CBC加密需要一个十六位的key(密钥)和一个十六位iv(偏移量)
 ECB加密不需要iv
 
 """
+import binascii
 import os
+import struct
 from base64 import b64encode, b64decode
 
 from Crypto.Cipher import AES
@@ -21,22 +22,69 @@ BLOCK_SIZE = AES.block_size
 
 
 class AESCipher:
-    def __init__(self, secretkey: str):
-        self.key = secretkey  # 密钥
-        self.iv = secretkey[0:16]  # 偏移量
+    def __init__(self, seckey):
+        """
+
+        :param seckey:
+        """
+        self.key = seckey  # 密钥16位
+        self.iv = seckey[0:16]  # 偏移量16位
+
+    def __generate_iv(self):
+        iv = b'884228eb5e53a57bd0511adb60fffa8d'
+        return iv
+
+    def __pad(self, text):
+        """填充方式，加密内容必须为16字节的倍数，若不足则使用self.iv进行填充"""
+        text_length = len(text)
+        amount_to_pad = AES.block_size - (text_length % AES.block_size)
+        if amount_to_pad == 0:
+            amount_to_pad = AES.block_size
+        pad = chr(amount_to_pad)
+        return text + (pad * amount_to_pad).encode()
+
+    def __unpad(self, text):
+        # pad = ord(text[-1])
+        pad = text[-1]
+        return text[:-pad]
+
+    def encrypt(self, plain_data):
+        """
+        aes  cbc 128
+        CBC加密需要一个十六位的key(密钥)和一个十六位iv(偏移量)
+        加密函数，如果data不是16的倍数【加密文本data必须为16的倍数！】，那就补足为16的倍数
+        :param plain_data:明文数据 16位
+        """
+        cipher = AES.new(self.key.encode('utf-8'), AES.MODE_CBC, self.iv.encode('utf-8'))  # 设置AES加密模式 此处设置为CBC模式
+
+        # 填充数据
+        pad_data = self.__pad(text=plain_data)
+        # aes加密
+        encrypted_data = cipher.encrypt(pad_data)
+        return encrypted_data
+
+    def decrypt(self, enc_data):
+        """aes解密
+        :param key:
+        :param data:
+        """
+        cipher = AES.new(self.key.encode(), AES.MODE_CBC, self.iv.encode())
+        dec_data = cipher.decrypt(enc_data)
+        unpad_data = self.__unpad(dec_data)
+        return unpad_data
 
     def enc_file(self, plain_file_path, enc_file_path):
         """
         加密文件
         :param plain_file_path: 明文文件路径
         :param enc_file_path: 加密后文件路径
+        :param key: 秘钥
         :return:
         """
         with open(plain_file_path, 'rb') as fileobj:
             content = fileobj.read()
             # 加密文件
-            enc_content = self.encrypt(content)
-
+            enc_content = self.encrypt(plain_data=content)
         with open(enc_file_path, 'wb') as f:  # 以二进制写类型打开
             f.write(enc_content)  # 写入文件
 
@@ -49,56 +97,9 @@ class AESCipher:
         """
         with open(enc_file_path, 'rb') as fileobj:
             content = fileobj.read()
-            dec_content = self.decrypt(content)
+            dec_content = self.decrypt(enc_data=content[64:])
         with open(dec_file_path, 'wb') as f:  # 以二进制写类型打开
             f.write(dec_content)  # 写入文件
-
-    def encrypt(self, text):
-        """
-        加密 ：先补位，再AES加密，后base64编码
-        :param text: 需加密的明文
-        :return:
-        """
-        # 包pycryptodome 的加密函数不接受str
-        text = self.__pad(text).encode()
-        cipher = AES.new(key=self.key.encode(), mode=AES.MODE_CBC, IV=self.iv.encode())
-        encrypted_text = cipher.encrypt(text)
-        # 进行64位的编码,返回得到加密后的bytes，decode成字符串
-        return b64encode(encrypted_text).decode('utf-8')
-
-    def decrypt(self, encrypted_text):
-        """
-        解密 ：偏移量为key[0:16]；先base64解，再AES解密，后取消补位
-        :param encrypted_text : 已经加密的密文
-        :return:
-        """
-        encrypted_text = b64decode(encrypted_text)
-        cipher = AES.new(key=self.key.encode(), mode=AES.MODE_CBC, IV=self.iv.encode())
-        decrypted_text = cipher.decrypt(encrypted_text)
-        return self.__unpad(decrypted_text).decode('utf-8')
-
-    def __pad(self, text):
-        """
-        填充方式，
-        # 不足BLOCK_SIZE的补位(s可能是含中文，而中文字符utf-8编码占3个位置,gbk是2，所以需要以len(s.encode())，而不是len(s)计算补码)
-        pad = lambda s: s + (BLOCK_SIZE - len(s.encode()) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s.encode()) % BLOCK_SIZE)
-        """
-        amount_to_pad = AES.block_size - (len(text.encode()) % AES.block_size)
-        if amount_to_pad == 0:
-            amount_to_pad = AES.block_size
-        pad = chr(amount_to_pad)
-        return text + (pad * amount_to_pad)
-
-    def __unpad(self, text):
-        """
-        去除填充
-        该方法等同于下面lambda表达式
-        unpad = lambda s: s[:-ord(s[len(s) - 1:])]
-        :param text:
-        :return:
-        """
-        pad = text[-1]
-        return text[:-pad]
 
 
 if __name__ == '__main__':
