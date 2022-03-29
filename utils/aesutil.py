@@ -7,7 +7,11 @@ window:
 pip install crypto
 pip install pycryptodome
 
+CBC加密需要一个十六位的key(密钥)和一个十六位iv(偏移量)
+ECB加密不需要iv
+
 """
+import os
 from base64 import b64encode, b64decode
 
 from Crypto.Cipher import AES
@@ -19,6 +23,34 @@ class AESCipher:
     def __init__(self, secretkey: str):
         self.key = secretkey  # 密钥
         self.iv = secretkey[0:16]  # 偏移量
+
+    def enc_file(self, plain_file_path, enc_file_path):
+        """
+        加密文件
+        :param plain_file_path: 明文文件路径
+        :param enc_file_path: 加密后文件路径
+        :return:
+        """
+        with open(plain_file_path, 'rb') as fileobj:
+            content = fileobj.read()
+            # 加密文件
+            enc_content = self.encrypt(content)
+
+        with open(enc_file_path, 'wb') as f:  # 以二进制写类型打开
+            f.write(enc_content)  # 写入文件
+
+    def dec_file(self, enc_file_path, dec_file_path):
+        """
+        解密文件
+        :param enc_file_path: 加密文件路径
+        :param dec_file_path: 解密文件路径
+        :return:
+        """
+        with open(enc_file_path, 'rb') as fileobj:
+            content = fileobj.read()
+            dec_content = self.decrypt(content)
+        with open(dec_file_path, 'wb') as f:  # 以二进制写类型打开
+            f.write(dec_content)  # 写入文件
 
     def encrypt(self, text):
         """
@@ -69,17 +101,20 @@ class AESCipher:
 
 
 if __name__ == '__main__':
+    # 密钥
+    encryptKey = "6agrioBE1D9yoGOX4yyDMyMFs72jYvJ8"
+    aesCipher = AESCipher(encryptKey)
+    # 加密
+    enc_data = aesCipher.encrypt("哈哈哈")
+    print(enc_data)
+    # 解密
+    print(aesCipher.decrypt(enc_data))
+
     # /Users/conanmu/code/github/python/studyPython/data/obama.jpg
     # base_path = os.path.dirname(os.path.abspath(__file__)) + '/data'
     base_path = "/Users/conanmu/code/github/python/studyPython/data/"
     plain_file = base_path + '/obama.jpg'
     enc_file = base_path + '/obama_encrypt.jpg'
     dec_file = base_path + '/obama_decrypt.jpg'
-    # 密钥
-    encryptKey = "6agrioBE1D9yoGOX4yyDMyMFs72jYvJ8"
-    aesUtil = AESCipher(encryptKey)
-    # 加密
-    enc_data = aesUtil.encrypt("哈哈哈")
-    print(enc_data)
-    # 解密
-    print(aesUtil.decrypt(enc_data))
+    aesCipher.enc_file(plain_file_path=plain_file, enc_file_path=enc_file)
+    aesCipher.dec_file(enc_file_path=enc_file, dec_file_path=dec_file)
