@@ -1,0 +1,7 @@
+#python3 加解密
+#mac:
+pycryptodome==3.14.1
+
+#window:
+crypto==
+pycryptodome==

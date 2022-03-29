@@ -1,3 +1,12 @@
+# -*- encoding: utf-8 -*-
+"""
+@File    : aesutil2.py
+@Time    : 2022/3/29 3:53 下午
+@Author  : xingnana
+@Email   : 
+@Software: PyCharm
+@Description: 
+"""
 import binascii
 import os
 import struct
@@ -7,10 +16,9 @@ from Crypto.Cipher import AES
 
 class AESCipherOld:
 
-    def __init__(self, secretkey: str):
-        self.key = secretkey  # 密钥
-        # self.iv = str.encode(secretkey[0:16])  # 偏移量
-        self.iv = self.key
+    def __init__(self, seckey):
+        self.key = seckey  # 密钥
+        self.iv = str.encode(seckey[0:16])  # 偏移量
 
     def __generate_iv(self):
         iv = b'884228eb5e53a57bd0511adb60fffa8d'
@@ -29,7 +37,7 @@ class AESCipherOld:
         pad = ord(text[-1])
         return text[:-pad]
 
-    def aes_encrypt(self, plain_data, key, iv):
+    def aes_encrypt(self, plain_data):
         """
         aes  cbc 128
         CBC加密需要一个十六位的key(密钥)和一个十六位iv(偏移量)
@@ -38,7 +46,7 @@ class AESCipherOld:
         :param key:  16位
         :param iv:16位
         """
-        cipher = AES.new(key, AES.MODE_CBC, iv)  # 设置AES加密模式 此处设置为CBC模式
+        cipher = AES.new(self.key, AES.MODE_CBC, self.iv)  # 设置AES加密模式 此处设置为CBC模式
 
         # 填充数据
         pad_data = self.__pad(text=plain_data)
@@ -49,12 +57,12 @@ class AESCipherOld:
         result = binascii.b2a_hex(encrypted_data)  # b2a_hex encode  将二进制转换成16进制
         return encrypted_data
 
-    def aes_decryppt(self, enc_data, key, iv):
+    def aes_decryppt(self, enc_data):
         """aes解密
         :param key:
         :param data:
         """
-        cipher = AES.new(key, AES.MODE_CBC, iv)
+        cipher = AES.new(self.key, AES.MODE_CBC, self.iv)
         dec_data = cipher.decrypt(enc_data)
 
         unpad_data = self.__unpad(dec_data)
@@ -74,7 +82,7 @@ class AESCipherOld:
         with open(plain_file_path, 'rb') as fileobj:
             content = fileobj.read()
             # 加密文件
-            enc_content = self.aes_encrypt(plain_data=content, key=self.key, iv=self.iv)
+            enc_content = self.aes_encrypt(plain_data=content)
         file_name = os.path.basename(plain_file_path)
         # out_file_path = os.path.dirname(plain_file_path) + '/enc_obama.jpg'
 
@@ -92,7 +100,7 @@ class AESCipherOld:
         with open(enc_file_path, 'rb') as fileobj:
             content = fileobj.read()
             # 解密文件
-            dec_content = self.aes_decryppt(enc_data=content, key=self.key, iv=self.iv)
+            dec_content = self.aes_decryppt(enc_data=content)
         file_name = os.path.basename(enc_file_path)
 
         # (filename, extension) = os.path.splitext(file_name)
@@ -141,11 +149,14 @@ if __name__ == '__main__':
     encryptKey = "6agrioBE1D9yoGOX4yyDMyMFs72jYvJ8"
 
     aesCipher = AESCipherOld(encryptKey)
+    enc_data = aesCipher.aes_encrypt("这是一个测试")
+    print(enc_data)
+    print(aesCipher.aes_decryppt(enc_data))
     # /Users/conanmu/code/github/python/studyPython/data/obama.jpg
     # base_path = os.path.dirname(os.path.abspath(__file__)) + '/data'
-    base_path = "/Users/conanmu/code/github/python/studyPython/data/"
-    plain_file = base_path + '/obama.jpg'
-    enc_file = base_path + '/obama_encrypt.jpg'
-    dec_file = base_path + '/obama_decrypt.jpg'
-    aesCipher.enc_file(plain_file_path=plain_file, enc_file_path=enc_file)
-    aesCipher.dec_file(enc_file_path=enc_file, dec_file_path=dec_file)
+    # base_path = "/Users/conanmu/code/github/python/studyPython/data/"
+    # plain_file = base_path + '/obama.jpg'
+    # enc_file = base_path + '/obama_encrypt.jpg'
+    # dec_file = base_path + '/obama_decrypt.jpg'
+    # aesCipher.enc_file(plain_file_path=plain_file, enc_file_path=enc_file)
+    # aesCipher.dec_file(enc_file_path=enc_file, dec_file_path=dec_file)

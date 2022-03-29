@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 """
 python3 加解密
 mac:
@@ -110,11 +111,9 @@ if __name__ == '__main__':
     # 解密
     print(aesCipher.decrypt(enc_data))
 
-    # /Users/conanmu/code/github/python/studyPython/data/obama.jpg
-    # base_path = os.path.dirname(os.path.abspath(__file__)) + '/data'
-    base_path = "/Users/conanmu/code/github/python/studyPython/data/"
-    plain_file = base_path + '/obama.jpg'
-    enc_file = base_path + '/obama_encrypt.jpg'
-    dec_file = base_path + '/obama_decrypt.jpg'
-    aesCipher.enc_file(plain_file_path=plain_file, enc_file_path=enc_file)
-    aesCipher.dec_file(enc_file_path=enc_file, dec_file_path=dec_file)
+    # base_path = "/Users/conanmu/code/github/python/studyPython/data/"
+    # plain_file = base_path + '/obama.jpg'
+    # enc_file = base_path + '/obama_encrypt.jpg'
+    # dec_file = base_path + '/obama_decrypt.jpg'
+    # aesCipher.enc_file(plain_file_path=plain_file, enc_file_path=enc_file)
+    # aesCipher.dec_file(enc_file_path=enc_file, dec_file_path=dec_file)
