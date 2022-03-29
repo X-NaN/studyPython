@@ -155,8 +155,8 @@ if __name__ == '__main__':
 
     aesCipher = AESCipherOld(encryptKey)
     enc_data = aesCipher.aes_encrypt("这是一个测试")
-    print(enc_data)
-    print(aesCipher.aes_decryppt(enc_data))
+    print("加密结果: " + enc_data)
+    print("解密结果: " + aesCipher.aes_decryppt(enc_data))
 
     base_path = "/Users/conanmu/code/github/python/studyPython/data/"
     plain_file = base_path + '/obama.jpg'
