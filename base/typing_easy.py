@@ -9,7 +9,7 @@ def func(paramName1: "类型", paramName2: "类型") -> "返回类型"
 注意：在调用函数时，如果传入错误的类型，pycharm会给出提示
 
 """
-
+from collections import Sequence
 from typing import Tuple, List, Dict
 
 # 基本类型用法
@@ -48,9 +48,28 @@ def typing_list(names: List[str]) -> str:
     return "typing list"
 
 
+# 类型别名，可以用于简化复杂的类型签名
+Vector = list[float]
+
+
+def scale(scalar: float, vector: Vector) -> Vector:
+    return [scalar * num for num in vector]
+
+
+ConnectionOptions = dict[str, str]
+Address = tuple[str, int]
+Server = tuple[Address, ConnectionOptions]
+
+
+def broadcast_msg(msg: str, servers: Sequence[Server]) -> None:
+    pass
+
+
 if __name__ == '__main__':
     # print(typing_demo2(5, "hhhh", 2.3, False))
     # typing_list(["abby", "lily"])
 
     # 未传入正确类型，会报错
-    typing_list(2)
+    # typing_list(2)
+    new_vector = scale(2.0, [1.0, -4.2, 5.4])
+    print(new_vector)

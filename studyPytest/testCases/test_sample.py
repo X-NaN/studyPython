@@ -7,6 +7,8 @@
 @Software: PyCharm
 @Description: test
 """
+import pytest
+
 
 def fun(x):
     return x + 1
@@ -14,3 +16,6 @@ def fun(x):
 
 def test_answer():
     assert fun(3) == 5
+
+
+pytest.main(["-s", "test_sample.py"])

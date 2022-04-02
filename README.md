@@ -19,6 +19,9 @@ pytest --version
 """
 test_sample.py文件
 """
+import pytest
+
+
 def fun(x):
     return x + 1
 
@@ -26,12 +29,18 @@ def fun(x):
 def test_answer():
     assert fun(3) == 5
 
+
+pytest.main(["-s", "test_sample.py"])
+
 ```
 ```shell
+# 第一种
 # 进入项目根目录下
 cd xxx
 # 执行pytest
 pytest
+
+#第二种:pytest.main(["-s", "test_sample.py"])
 ```
 
 
