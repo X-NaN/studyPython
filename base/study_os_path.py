@@ -8,6 +8,9 @@ def path():
     (filename, extension) = os.path.splitext(file_name)
     print(filename + "," + extension)
 
+    root_path = current_path[:current_path.index("studyPython")+len("studyPython")]
+    print(root_path)
+
 
 if __name__ == '__main__':
     path()
