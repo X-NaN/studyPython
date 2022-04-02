@@ -15,7 +15,9 @@ def fun(x):
 
 
 def test_answer():
-    assert fun(3) == 5
+    assert fun(3) == 4
 
+def test_answer2():
+    assert fun(3) == 5
 
 pytest.main(["-s", "test_sample.py"])
