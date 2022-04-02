@@ -35,7 +35,7 @@ def typing_demo1(a: int, string: str, f: float, b: bool) -> Tuple[List, Tuple, D
     return list1, tup, d, bl
 
 
-def typing_demo(a: "int", string: "str", f: "float", b: "bool") -> "Tuple[List, Tuple, Dict, bool]":
+def typing_demo2(a: "int", string: "str", f: "float", b: "bool") -> "Tuple[List, Tuple, Dict, bool]":
     list1 = list(range(a))
     tup = (string, string, string)
     d = {"a": f}
@@ -49,5 +49,8 @@ def typing_list(names: List[str]) -> str:
 
 
 if __name__ == '__main__':
-    # print(typing_demo(5, "hhhh", 2.3, False))
-    typing_list(["abby", "lily"])
+    # print(typing_demo2(5, "hhhh", 2.3, False))
+    # typing_list(["abby", "lily"])
+
+    # 未传入正确类型，会报错
+    typing_list(2)
