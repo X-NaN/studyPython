@@ -8,7 +8,6 @@
 @Description: test
 """
 
-
 def fun(x):
     return x + 1
 
