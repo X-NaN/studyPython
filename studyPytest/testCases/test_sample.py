@@ -10,14 +10,33 @@
 import pytest
 
 
-def fun(x):
+def add_one(x):
     return x + 1
 
 
+def exception_function():
+    raise SystemExit(1)
+
+
 def test_answer():
-    assert fun(3) == 4
+    assert add_one(3) == 4
+
 
 def test_answer2():
-    assert fun(3) == 5
+    assert add_one(3) == 5
+
+
+def test_exception():
+    with pytest.raises(SystemExit):
+        exception_function()
+
+
+def answer_test():
+    """
+    该方法不会被识别为pytest用例，必须以test_开头的函数才会被收集执行
+    :return:
+    """
+    assert add_one(3) == 5
+
 
 pytest.main(["-s", "test_sample.py"])
