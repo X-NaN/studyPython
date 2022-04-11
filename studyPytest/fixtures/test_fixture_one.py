@@ -7,8 +7,9 @@
 @Software: PyCharm
 @Description: 
 """
-import pytest
+import json
 
+import pytest
 from utils.logger import Logger
 
 logger = Logger.instance()
@@ -41,3 +42,8 @@ def fruit_bowl():
 def test_fruit_salad(fruit_bowl):
     fruit_salad = FruitSalad(*fruit_bowl)
     assert all(fruit.cube for fruit in fruit_salad.fruit)
+
+
+def test_cmd_configs(cmd_configs):
+    logger.info("cmd_configs的值:" + cmd_configs["env"])
+    print("cmd_configs的值:" + cmd_configs["env"])
