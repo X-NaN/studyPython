@@ -5,7 +5,17 @@
 @Author  : xingnana
 @Email   : 
 @Software: PyCharm
-@Description: 
+@Description:
+fixture:
+参数scope
+参数autouse=Tue，表明次fixture会在给定的scope范围内自动执行，且不需要在测试方法中进行引用
+
+yield作用，以及和return区别：
+yield在fixture中起到了唤起teardown的作用，同时也可以和return一样返回值。
+区别是：
+return执行完成，该函数终止；
+yield在返回结束后，后续的代码仍可执行
+
 """
 import json
 
