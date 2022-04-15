@@ -52,6 +52,10 @@ def test_fruit_salad(fruit_bowl):
     fruit_salad = FruitSalad(*fruit_bowl)
     assert all(fruit.cube for fruit in fruit_salad.fruit)
 
+def test_fruit_salad_other(fruit_bowl):
+    fruit_salad = FruitSalad(*fruit_bowl)
+    assert all(fruit.cube for fruit in fruit_salad.fruit)
+
 
 def test_cmd_configs(cmd_configs):
     """
@@ -70,3 +74,4 @@ def test_cmd_configs(cmd_configs):
 if __name__ == '__main__':
     # pytest.main(["-s", "./test_fixture_one.py/", "--env=test"])
     pytest.main(["-s", "./test_fixture_one.py/", "--env=dev", "--prop=nana", "--prop=leo"])
+    # pytest.main(["-s", "./test_fixture_one.py::test_fruit_salad", "--env=dev", "--prop=nana", "--prop=leo"])
