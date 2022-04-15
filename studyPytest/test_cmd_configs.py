@@ -20,6 +20,7 @@ def test_cmd_configs(cmd_configs):
     """
     if cmd_configs["env"] == "dev":
         logger.info("开发环境，cmd_configs的值:" + str(cmd_configs["env"]))
+        logger.warn("warn日志")
     elif cmd_configs["env"] == "daily":
         logger.info("日常环境，cmd_configs的值:" + str(cmd_configs["env"]))
 

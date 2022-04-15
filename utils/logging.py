@@ -90,6 +90,11 @@ class Logger(logging.Logger):
                                                                   backupCount=500, encoding="utf-8")
             info_file_handler.setFormatter(self.__get_log_formatter())
             self.addHandler(info_file_handler)
+
+            warn_file_handler = handlers.TimedRotatingFileHandler(filename=self.__get_log_path(logging.WARNING),
+                                                                  backupCount=500, encoding="utf-8")
+            warn_file_handler.setFormatter(self.__get_log_formatter())
+            self.addHandler(warn_file_handler)
         else:
             for handler in self.handlers:
                 handler.setFormatter(self.__get_log_formatter())
