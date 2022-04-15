@@ -20,7 +20,7 @@ import pytest
 
 from utils.logger import Logger
 
-logger = Logger.instance()
+from utils.logging import logger
 
 
 def pytest_addoption(parser):
