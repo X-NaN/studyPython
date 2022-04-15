@@ -29,7 +29,7 @@ def pytest_addoption(parser):
     :param parser:
     :return:
     """
-    logger.info("pytest_addoption")
+    logger.info("pytest_addoption函数")
     # action="store"时，defualt可以为任意类型值
     parser.addoption("--env", action="store", default='', help="外部传入环境")
     parser.addoption("--prop", action="append", default=[], help="外部传入环境")
@@ -38,7 +38,7 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="session")
 def cmd_configs(request):
-    logger.info("cmd_configs")
+    logger.info("cmd_configs函数")
     cmd_configs = {}
     cmd_configs["env"] = request.config.getoption("--env")
 

@@ -19,14 +19,16 @@ def test_cmd_configs(cmd_configs):
     :return:
     """
     if cmd_configs["env"] == "dev":
-        logger.info("开发环境，cmd_configs的值:" + str(cmd_configs["env"]))
+        logger.info("开发环境，cmd_configs的值:%s", str(cmd_configs["env"]))
         logger.warn("warn日志")
     elif cmd_configs["env"] == "daily":
-        logger.info("日常环境，cmd_configs的值:" + str(cmd_configs["env"]))
+        logger.info("日常环境，cmd_configs的值:%s", str(cmd_configs["env"]))
+    else:
+        logger.info("其他cmd")
 
     # logger.info("cmd_configs的值:" + str(cmd_configs1["prop"]))
 
 
 if __name__ == '__main__':
-    # pytest.main(["-s", "./test_cmd_configs.py/", "--env=test"])
-    pytest.main(["-s", "./test_cmd_configs.py/", "--env=dev", "--prop=nana", "--prop=leo"])
+    pytest.main(["-s", "./test_cmd_configs.py/", "--env=dev"])
+    # pytest.main(["-s", "./test_cmd_configs.py/", "--env=dev", "--prop=nana", "--prop=leo"])

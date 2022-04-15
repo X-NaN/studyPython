@@ -25,17 +25,17 @@ class Logger(logging.Logger):
     """
     _instance_lock = threading.Lock()
 
-    def __init__(self):
+    def __init__(self, project_name):
         super().__init__("log")
+        self.project_name = project_name
         self.setLevel(logging.DEBUG)
         self.create_handlers()
-        pass
 
     @classmethod
-    def instance(cls):
+    def instance(cls, *args, **kwargs):
         with Logger._instance_lock:
             if not hasattr(Logger, "_instance"):
-                Logger._instance = Logger()
+                Logger._instance = Logger(*args, **kwargs)
         return Logger._instance
 
     def __get_path(self):
@@ -49,7 +49,7 @@ class Logger(logging.Logger):
         else:
             current_path = os.path.dirname(os.path.abspath(__file__))
             # root_path = current_path[:current_path.index("studyPython") + len("studyPython")]
-            root_path = current_path[:current_path.index(project_name) + len(project_name)]
+            root_path = current_path[:current_path.index(self.project_name) + len(self.project_name)]
             log_dir = root_path + "/logs"
         if not Path(log_dir).exists():
             Path(log_dir).mkdir()
@@ -69,9 +69,10 @@ class Logger(logging.Logger):
         }
         return log_path_dict[log_leve]
 
+    @classmethod
     def __get_log_formatter(self):
         formatter = logging.Formatter(
-            "%(asctime)s|thread: %(thread)s|threadName: %(threadName)s |process: %(process)s |%(levelname)s |%(filename)s |%(funcName)s |%(lineno)d |%(message)s"
+            "%(asctime)s|thread: %(thread)s|%(levelname)s |threadName: %(threadName)s |%(filename)s |%(funcName)s |%(lineno)d |%(message)s"
         )
         return formatter
 
@@ -85,19 +86,14 @@ class Logger(logging.Logger):
             console_handler = logging.StreamHandler(sys.stdout)
             console_handler.setFormatter(self.__get_log_formatter())
             self.addHandler(console_handler)
-
+            # TimedRotatingFileHandler按时间切割文件;
             info_file_handler = handlers.TimedRotatingFileHandler(filename=self.__get_log_path(logging.INFO),
                                                                   backupCount=500, encoding="utf-8")
             info_file_handler.setFormatter(self.__get_log_formatter())
             self.addHandler(info_file_handler)
-
-            warn_file_handler = handlers.TimedRotatingFileHandler(filename=self.__get_log_path(logging.WARNING),
-                                                                  backupCount=500, encoding="utf-8")
-            warn_file_handler.setFormatter(self.__get_log_formatter())
-            self.addHandler(warn_file_handler)
         else:
             for handler in self.handlers:
                 handler.setFormatter(self.__get_log_formatter())
 
 
-logger = Logger.instance()
+logger = Logger.instance(project_name)
