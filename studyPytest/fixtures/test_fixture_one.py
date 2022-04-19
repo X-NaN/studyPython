@@ -6,7 +6,14 @@
 @Email   : 
 @Software: PyCharm
 @Description:fixture
-参数scope
+
+Fixtures are created when first requested by a test, and are destroyed based on their scope:
+• function: the default scope, the fixture is destroyed at the end of the test.
+• class: the fixture is destroyed during teardown of the last test in the class.
+• module: the fixture is destroyed during teardown of the last test in the module.
+• package: the fixture is destroyed during teardown of the last test in the package.
+• session: the fixture is destroyed at the end of the test ses
+
 参数autouse=Tue，表明次fixture会在给定的scope范围内自动执行，且不需要在测试方法中进行引用
 
 yield作用以及和return区别：
