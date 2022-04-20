@@ -32,11 +32,11 @@ poetry shell
 
 |命令|功能|示例｜
 |----|----|----|
-|new|创建项目脚手架，包含基本 的结构和pyproject.toml|poetry new 项目名xx|
+|new|创建项目脚手架，包含基本 的结构和pyproject.toml|poetry new <项目名xx>|
 |init|基于已有的项目创建pyproject.toml，支持命令行输入基本信息|poetry init|
 |install|安装依赖库|poetry install|
 |update|更新依赖库||
-|add|添加依赖库||
+|add|添加依赖库|poetry add <dependency_name>|
 |remove|移除依赖库||
 |show|显示依赖库信息，支持显示树形依赖链||
 |build|支持构建tar.gz或者wheel包||
