@@ -17,9 +17,6 @@
 import json
 
 import pytest
-
-from utils.logger import Logger
-
 from utils.logging import logger
 
 
