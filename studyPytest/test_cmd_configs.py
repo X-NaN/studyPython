@@ -11,6 +11,13 @@ import pytest
 
 from utils.logging import logger
 
+def test_cmd_configs_another(cmd_configs):
+    """
+    测试搜集到的命令行参数
+    :param cmd_configs: 搜集的命令行参数值
+    :return:
+    """
+    print("我是test_cmd_configs_another的print输出")
 
 def test_cmd_configs(cmd_configs):
     """
