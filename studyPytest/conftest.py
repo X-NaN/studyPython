@@ -33,24 +33,18 @@ def pytest_addoption(parser):
     pass
 
 
+def pytest_configure(config):
+    logger.info("pytest_configure函数执行")
+
+
+def pytest_collection_modifyitems(session: "pytest.Session", config: "Config", items
+                                  ) -> None:
+    logger.info("pytest_collection_modifyitems函数执行")
+
+
 @pytest.fixture(scope="session")
 def cmd_configs(request):
     logger.info("cmd_configs函数")
-    cmd_configs = {}
-    cmd_configs["env"] = request.config.getoption("--env")
+    cmd_configs = {"env": request.config.getoption("--env")}
 
     return cmd_configs
-
-
-@pytest.fixture(scope="session")
-def cmd_configs1(pytestconfig):
-    logger.info("cmd_configs")
-    cmd_configs = {}
-    cmd_configs["prop"] = pytestconfig.getoption("--prop")
-
-    return cmd_configs
-
-
-@pytest.fixture()
-def configs(cmd_configs):
-    logger.info('--cmd_configs的值：' + json.dumps(cmd_configs))

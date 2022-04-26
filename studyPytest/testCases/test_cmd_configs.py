@@ -11,6 +11,7 @@ import pytest
 
 from utils.logging import logger
 
+
 def test_cmd_configs_another(cmd_configs):
     """
     测试搜集到的命令行参数
@@ -18,6 +19,7 @@ def test_cmd_configs_another(cmd_configs):
     :return:
     """
     print("我是test_cmd_configs_another的print输出")
+
 
 def test_cmd_configs(cmd_configs):
     """
@@ -27,15 +29,13 @@ def test_cmd_configs(cmd_configs):
     """
     if cmd_configs["env"] == "dev":
         logger.info("开发环境，cmd_configs的值:%s", str(cmd_configs["env"]))
-        logger.warn("warn日志")
     elif cmd_configs["env"] == "daily":
         logger.info("日常环境，cmd_configs的值:%s", str(cmd_configs["env"]))
     else:
-        logger.info("其他cmd")
-
-    # logger.info("cmd_configs的值:" + str(cmd_configs1["prop"]))
+        logger.info("env为空")
 
 
 if __name__ == '__main__':
+    # 不知为何从当前文件触发执行，用例test_cmd_configs获取到的命令行参数env为空
     pytest.main(["-s", "./test_cmd_configs.py/", "--env=dev"])
     # pytest.main(["-s", "./test_cmd_configs.py/", "--env=dev", "--prop=nana", "--prop=leo"])

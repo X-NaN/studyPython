@@ -10,4 +10,5 @@
 import pytest
 
 if __name__ == '__main__':
-    pytest.main(["-v", "/Users/conanmu/code/github/python/studyPython/studyPytest/fixtures/test_fixture_one.py", "--env=dev"])
+    pytest.main(["-s", "./testCases/test_cmd_configs.py/", "--env=dev", "--prop=nana", "--prop=leo"])
+    # pytest.main(["-v", "/Users/conanmu/code/github/python/studyPython/studyPytest/fixtures/test_fixture_one.py", "--env=dev"])

@@ -10,7 +10,7 @@
 import pytest
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def fixture_request(request):
     print("\n======================= 内嵌fixture request start=================================")
     # 调用该fixture的module:
