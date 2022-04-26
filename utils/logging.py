@@ -72,7 +72,7 @@ class Logger(logging.Logger):
     @classmethod
     def __get_log_formatter(self):
         formatter = logging.Formatter(
-            "%(asctime)s|thread: %(thread)s|%(levelname)s |threadName: %(threadName)s |%(filename)s |%(funcName)s |%(lineno)d |%(message)s"
+            "%(asctime)s|thread: %(thread)s|%(levelname)s|%(filename)s |%(funcName)s |%(lineno)d |%(message)s"
         )
         return formatter
 
