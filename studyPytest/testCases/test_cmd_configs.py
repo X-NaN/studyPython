@@ -7,6 +7,8 @@
 @Software: PyCharm
 @Description: 
 """
+import json
+
 import pytest
 
 from utils.logging import logger
@@ -33,6 +35,7 @@ def test_cmd_configs(cmd_configs):
         logger.info("日常环境，cmd_configs的值:%s", str(cmd_configs["env"]))
     else:
         logger.info("env为空")
+    logger.info("cmd_configs的值:" + json.dumps(cmd_configs))
 
 
 if __name__ == '__main__':

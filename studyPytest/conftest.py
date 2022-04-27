@@ -30,6 +30,10 @@ def pytest_addoption(parser):
     # action="store"时，defualt可以为任意类型值
     parser.addoption("--env", action="store", default='', help="外部传入环境")
     parser.addoption("--prop", action="append", default=[], help="外部传入环境")
+    parser.addoption("--cmdopt", action="store_const",
+                     default='custom',
+                     const='test',
+                     help="将命令行参数 ’--cmdopt' 添加到 pytest 配置中")
     pass
 
 
@@ -45,6 +49,8 @@ def pytest_collection_modifyitems(session: "pytest.Session", config: "Config", i
 @pytest.fixture(scope="session")
 def cmd_configs(request):
     logger.info("cmd_configs函数")
-    cmd_configs = {"env": request.config.getoption("--env")}
-
+    cmd_configs = {}
+    cmd_configs["env"] = request.config.getoption("--env")
+    cmd_configs["prop"] = request.config.getoption("--prop")
+    cmd_configs["cmdopt"] = request.config.getoption("--cmdopt")
     return cmd_configs
