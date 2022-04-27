@@ -15,6 +15,17 @@ def test_eval(test_input, expected):
     assert eval(test_input) == expected
 
 
+@pytest.mark.parametrize("input,expected", [("3+5", 8), ("4+2", 6), pytest.param("6*9", 11, marks=pytest.mark.xfail)])
+def test_eval_xfail(input, expected):
+    """
+    xfail：期望失败的
+    :param input:
+    :param expected:
+    :return:
+    """
+    assert eval(input) == expected
+
+
 # 类中所有方法参数化
 @pytest.mark.parametrize("n,expected", [(1, 2), (3, 4)])
 class TestClass:
