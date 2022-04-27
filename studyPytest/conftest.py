@@ -29,11 +29,15 @@ def pytest_addoption(parser):
     logger.info("pytest_addoption函数")
     # action="store"时，defualt可以为任意类型值
     parser.addoption("--env", action="store", default='', help="外部传入环境")
-    parser.addoption("--prop", action="append", default=[], help="外部传入环境")
+    parser.addoption("--prop", action="append", default=[], help="外部传入prop")
     parser.addoption("--cmdopt", action="store_const",
                      default='custom',
                      const='test',
                      help="将命令行参数 ’--cmdopt' 添加到 pytest 配置中")
+    parser.addoption("--ch", action="store",
+                     default='test',
+                     choices=['python', 'java', 'c++'],
+                     help="将命令行参数 ’--ch' 添加到 pytest 配置中")
     pass
 
 
@@ -53,4 +57,6 @@ def cmd_configs(request):
     cmd_configs["env"] = request.config.getoption("--env")
     cmd_configs["prop"] = request.config.getoption("--prop")
     cmd_configs["cmdopt"] = request.config.getoption("--cmdopt")
+    cmd_configs["ch"] = request.config.getoption("--ch")
+
     return cmd_configs
