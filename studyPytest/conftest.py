@@ -30,19 +30,41 @@ def pytest_addoption(parser):
     # action="store"时，defualt可以为任意类型值
     parser.addoption("--env", action="store", default='', help="外部传入环境")
     parser.addoption("--prop", action="append", default=[], help="外部传入prop")
-    parser.addoption("--cmdopt", action="store_const",
+    parser.addoption("--cmdopt",
+                     action="store_const",
                      default='custom',
                      const='test',
                      help="将命令行参数 ’--cmdopt' 添加到 pytest 配置中")
-    parser.addoption("--ch", action="store",
+    parser.addoption("--ch",
+                     action="store",
                      default='test',
                      choices=['python', 'java', 'c++'],
                      help="将命令行参数 ’--ch' 添加到 pytest 配置中")
+    parser.addoption("--stringinput",
+                     action="append",
+                     default=[],
+                     help="list of stringinputs to pass to test functions")
     pass
 
 
 def pytest_configure(config):
+    """
+    pytest执行的第一个阶段，负责插件和conftest.py文件配置初始化等，创建session
+    :param config:
+    :return:
+    """
     logger.info("pytest_configure函数执行")
+
+
+def pytest_generate_tests(metafunc):
+    """
+    收集测试函数时，会被调用。可以自定义参数化用例
+    :param metafunc:
+    :return:
+    """
+    if "stringinput" in metafunc.fixturenames:
+        metafunc.parametrize("stringinput", metafunc.config.getoption("stringinput"))
+    pass
 
 
 def pytest_collection_modifyitems(session: "pytest.Session", config: "Config", items

@@ -38,6 +38,16 @@ def test_multi(x, y):
     pass
 
 
+def test_hook_pytest_generate_tests(stringinput):
+    """
+    测试hook函数pytest_generate_tests是否按预期执行
+    :param stringinput:
+    :return:
+    """
+    # isalpha()函数判断的是字符串中的字符是否为构成某个语言的基本字符（如中国的汉字，日语的平假名等），而不是空格，标点符号，数字，或特殊字符
+    assert stringinput.isalpha()
+
+
 # 类中所有方法参数化
 @pytest.mark.parametrize("n,expected", [(1, 2), (3, 4)])
 class TestClass:
