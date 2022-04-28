@@ -26,6 +26,18 @@ def test_eval_xfail(input, expected):
     assert eval(input) == expected
 
 
+@pytest.mark.parametrize("x", [0, 1])
+@pytest.mark.parametrize("y", [3, 4])
+def test_multi(x, y):
+    """
+    生成四个用例，执行四次。3-0，3-1，4-0，，4-1
+    :param x:
+    :param y:
+    :return:
+    """
+    pass
+
+
 # 类中所有方法参数化
 @pytest.mark.parametrize("n,expected", [(1, 2), (3, 4)])
 class TestClass:
