@@ -2,7 +2,7 @@
 name = "studypython"
 version = "0.1.0"
 description = ""
-authors = ["xingnn <xingnn@tuya.com>"]
+authors = ["xingnn"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
