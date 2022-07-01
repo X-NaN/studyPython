@@ -6,7 +6,9 @@ authors = ["xingnn"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pytest = "^7.1.1"
 # 本地dist
+#autofish = { path = "/Users/conanmu/code/github/python/autofish/dist/autofish-0.1.0.tar.gz" }
 autofish = { path = "/Users/conanmu/code/github/python/autofish/dist/autofish-0.1.0.tar.gz" }
 
 [tool.poetry.dev-dependencies]

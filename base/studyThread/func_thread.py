@@ -20,5 +20,6 @@ def fun_1(i):
 if __name__ == '__main__':
     for i in range(5):
         t = threading.Thread(target=fun_1, args=(i,))
-        print("#查看线程数量和进程数量总和:%s" % len(threading.enumerate()))
         t.start()
+        print("#查看线程数量和进程数量总和:%s" % len(threading.enumerate()))
+
