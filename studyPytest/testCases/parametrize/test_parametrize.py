@@ -10,6 +10,21 @@
 import pytest
 
 
+# 单个参数
+@pytest.mark.parametrize("nums", [11, 22, 33])
+def test_eval_single_param(nums):
+    """
+    生成三个用例
+    test_eval[3+5-8]
+    test_eval[2+4-6]
+    :param test_input:
+    :param expected:
+    :return:
+    """
+    print(nums)
+
+
+# 多个参数
 @pytest.mark.parametrize("test_input,expected", [("3+5", 8), ("2+4", 6), ("6*9", 42)])
 def test_eval(test_input, expected):
     """
@@ -23,6 +38,7 @@ def test_eval(test_input, expected):
     assert eval(test_input) == expected
 
 
+# 笛卡尔积
 @pytest.mark.parametrize("x", [0, 1])
 @pytest.mark.parametrize("y", [3, 4])
 def test_multi(x, y):
