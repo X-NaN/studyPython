@@ -15,17 +15,6 @@ def test_eval(test_input, expected):
     assert eval(test_input) == expected
 
 
-@pytest.mark.parametrize("input,expected", [("3+5", 8), ("4+2", 6), pytest.param("6*9", 11, marks=pytest.mark.xfail)])
-def test_eval_xfail(input, expected):
-    """
-    xfail：期望失败的
-    :param input:
-    :param expected:
-    :return:
-    """
-    assert eval(input) == expected
-
-
 @pytest.mark.parametrize("x", [0, 1])
 @pytest.mark.parametrize("y", [3, 4])
 def test_multi(x, y):
@@ -36,16 +25,6 @@ def test_multi(x, y):
     :return:
     """
     pass
-
-
-def test_hook_pytest_generate_tests(stringinput):
-    """
-    测试hook函数pytest_generate_tests是否按预期执行
-    :param stringinput:
-    :return:
-    """
-    # isalpha()函数判断的是字符串中的字符是否为构成某个语言的基本字符（如中国的汉字，日语的平假名等），而不是空格，标点符号，数字，或特殊字符
-    assert stringinput.isalpha()
 
 
 # 类中所有方法参数化
