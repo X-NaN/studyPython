@@ -54,6 +54,7 @@ pytest --version
 ## 1.2 编写并运行用例
 ```python
 """
+官方文档：https://docs.pytest.org/en/latest/getting-started.html
 test_sample.py文件
 """
 import pytest

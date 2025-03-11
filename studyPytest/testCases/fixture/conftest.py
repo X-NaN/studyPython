@@ -28,7 +28,7 @@ def fixture_request(request):
 
 
 @pytest.fixture(scope="function")
-def scope_function():
+def login():
     """
     函数级，每个测试函数都会执行一次该fixture
     :return:

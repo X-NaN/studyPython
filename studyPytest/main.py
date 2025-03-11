@@ -12,7 +12,8 @@ import os
 import pytest
 
 if __name__ == '__main__':
-    pytest.main(["-s", "--setup-show", "./testCases/fixture/test_fixture_class.py/"])
+    pytest.main(["-s", "--setup-show", "./testCases/fixture/test_fixture_func.py/"])
+    # pytest.main(["-s", "--setup-show", "./testCases/fixture/test_fixture_class.py/"])
     # pytest.main(["-s", "./testCases/test_cmd_configs.py/", "--env=dev", "--prop=nana", "--prop=leo", '--cmdopt','--ch=java'])
     # pytest.main(["-v", "/Users/conanmu/code/github/python/studyPython/studyPytest/fixtures/test_fixture_one.py", "--env=dev"])
     # 测试hook函数 pytest_generate_tests

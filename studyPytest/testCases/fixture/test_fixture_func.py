@@ -30,5 +30,5 @@ def test_search(db):
     assert search_user('001') == 'xiaoming'
 
 
-def test_fixture_scope_func(scope_function):
-    assert scope_function == "scope_function"
+def test_fixture_scope_func(login):
+    assert login == "scope_function"
